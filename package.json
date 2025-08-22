@@ -1,0 +1,16 @@
+{
+  "name": "webhook-proxy",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.1",
+    "winston": "^3.17.0"
+  }
+}
