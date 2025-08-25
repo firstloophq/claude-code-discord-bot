@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, REST, Routes } from "discord.js";
-import commands from ".";
-import logger from "../../logger";
+import commands from "@/handlers/commands";
+import logger from "@/logger";
+import env from "@/env";
 
 const commandsToDeploy = commands
     .map((command) =>
@@ -10,7 +11,7 @@ const commandsToDeploy = commands
     )
     .map((command) => command.toJSON());
 
-const rest = new REST().setToken(process.env.DISCORD_TOKEN!);
+const rest = new REST().setToken(env.DISCORD_TOKEN);
 
 /**
  * Deploy the latest slash commands for the Discord bot.
@@ -22,9 +23,9 @@ export async function deployCommands() {
         );
 
         const data = (await rest.put(
-            Routes.applicationCommands(process.env.CLIENT_ID!),
+            Routes.applicationCommands(env.CLIENT_ID),
             { body: commandsToDeploy }
-        )) as any[];
+        )) as unknown[];
 
         logger.info(
             `Successfully reloaded ${data.length} application (/) commands.`

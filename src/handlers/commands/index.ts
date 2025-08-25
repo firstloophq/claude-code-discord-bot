@@ -1,6 +1,6 @@
-import type { Command } from "./types";
-import { triggerGitHubAction } from "./github";
-import logger from "../../logger";
+import type { Command } from "@/handlers/commands/types";
+import { triggerGitHubAction } from "@/handlers/commands/github";
+import logger from "@/logger";
 
 /**
  * The commands for the Discord bot.

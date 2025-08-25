@@ -1,3 +1,5 @@
+import env from "@/env";
+
 /**
  * Trigger a GitHub action.
  * @param owner - The owner of the repository.
@@ -14,18 +16,13 @@ export async function triggerGitHubAction(
     ref: string = "main",
     inputs: Record<string, string> = {}
 ) {
-    const token = process.env.GITHUB_TOKEN;
-    if (!token) {
-        throw new Error("GITHUB_TOKEN environment variable is required");
-    }
-
     const response = await fetch(
         `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowId}/dispatches`,
         {
             method: "POST",
             headers: {
                 Accept: "application/vnd.github+json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${env.GITHUB_TOKEN}`,
                 "X-GitHub-Api-Version": "2022-11-28",
             },
             body: JSON.stringify({

@@ -1,8 +1,10 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
-import { deployCommands } from "./handlers/commands/deploy";
-import commands from "./handlers/commands";
-import logger from "./logger";
-import { handleMention, isBotMentioned } from "./handlers/mentions";
+import { deployCommands } from "@/handlers/commands/deploy";
+import commands from "@/handlers/commands";
+import logger from "@/logger";
+import { isBotMentioned } from "@/handlers/mentions";
+import { handleClaudeMention } from "@/handlers/mentions/claude";
+import env from "@/env";
 
 // Start by deploying the commands to the Discord API.
 await deployCommands();
@@ -51,7 +53,7 @@ client.on(Events.MessageCreate, async (message) => {
     // Check if the bot is mentioned
     if (client.user && isBotMentioned(message, client.user.id)) {
         try {
-            await handleMention(message);
+            await handleClaudeMention({ message, botId: client.user.id });
         } catch (error) {
             logger.error("Error handling mention:", error);
             try {
@@ -64,12 +66,6 @@ client.on(Events.MessageCreate, async (message) => {
         }
     }
 });
-
-const token = process.env.DISCORD_TOKEN;
-if (!token) {
-    logger.error("DISCORD_TOKEN environment variable is required");
-    process.exit(1);
-}
 
 client.on(Events.Error, (error) => {
     logger.error("Client error:", error);
@@ -84,4 +80,4 @@ process.on("uncaughtException", (error) => {
     process.exit(1);
 });
 
-client.login(token).catch(logger.error);
+client.login(env.DISCORD_TOKEN).catch(logger.error);
