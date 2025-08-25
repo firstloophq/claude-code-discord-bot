@@ -1,0 +1,5 @@
+{
+    "ignoreDependencies": [
+        "@anthropic-ai/sdk"
+    ]
+}

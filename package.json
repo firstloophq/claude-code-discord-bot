@@ -1,10 +1,19 @@
 {
   "name": "webhook-proxy",
-  "module": "index.ts",
+  "module": "src/server.ts",
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@eslint/js": "^9.34.0",
+    "@types/bun": "latest",
+    "@types/node": "^24.3.0",
+    "eslint": "^9.34.0",
+    "eslint-plugin-jsdoc": "^54.1.1",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
+    "knip": "^5.63.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -13,6 +22,11 @@
     "@anthropic-ai/claude-code": "^1.0.90",
     "@anthropic-ai/sdk": "^0.60.0",
     "discord.js": "^14.22.1",
-    "winston": "^3.17.0"
+    "eslint-plugin-n": "^17.21.3",
+    "winston": "^3.17.0",
+    "zod": "^4.1.1"
+  },
+  "scripts": {
+    "knip": "knip"
   }
 }
