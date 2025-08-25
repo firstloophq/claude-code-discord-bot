@@ -1,8 +1,11 @@
-# Firstloop Discord Bot
+# Claude Code Discord Bot
 
-A Discord.js bot server for Firstloop that handles slash commands and GitHub integrations.
+A POC Claude Code-powered Discord.js bot server used by the Firstloop team that:
+- Connects to org contexts via configured MCP servers
+- Responds to @ mentions in Discord
+- Supports custom slash commands for GitHub integrations.
 
-**Discord Application**: https://discord.com/developers/applications/1408139346749685811
+**Discord Application** (private): https://discord.com/developers/applications/1408139346749685811
 
 ## Setup
 
@@ -10,6 +13,7 @@ A Discord.js bot server for Firstloop that handles slash commands and GitHub int
 - [Bun](https://bun.sh) runtime
 - Discord bot token
 - GitHub personal access token (for GitHub integrations)
+  - Requires `Actions: R/W` + `Contents: Read` permissions
 
 ### Installation
 
