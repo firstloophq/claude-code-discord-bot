@@ -6,6 +6,12 @@ import { isBotMentioned } from "@/handlers/mentions";
 import { handleClaudeMention } from "@/handlers/mentions/claude";
 import env from "@/env";
 
+// We scope mentions to specific channels to avoid general public users from using the bot.
+const allowedMentionChannels = [
+    "1290825650743148554", // #general
+    "1408105249348128901", // #claude-code
+];
+
 // Start by deploying the commands to the Discord API.
 await deployCommands();
 
@@ -50,19 +56,30 @@ client.on(Events.MessageCreate, async (message) => {
     // Ignore messages from bots
     if (message.author.bot) return;
 
-    // Check if the bot is mentioned
-    if (client.user && isBotMentioned(message, client.user.id)) {
+    if (!client.user) {
+        logger.error("Client user not found");
+        return;
+    }
+
+    if (!isBotMentioned(message, client.user.id)) return;
+
+    if (!message.guild || !allowedMentionChannels.includes(message.channelId)) {
+        await message.reply(
+            "Sorry, I can only respond in specific channels. Please try again in a channel that I have access to."
+        );
+        return;
+    }
+
+    try {
+        await handleClaudeMention({ message, botId: client.user.id });
+    } catch (error) {
+        logger.error("Error handling mention:", error);
         try {
-            await handleClaudeMention({ message, botId: client.user.id });
-        } catch (error) {
-            logger.error("Error handling mention:", error);
-            try {
-                await message.reply(
-                    "Sorry, I encountered an error while processing your mention."
-                );
-            } catch (replyError) {
-                logger.error("Failed to send error message:", replyError);
-            }
+            await message.reply(
+                "Sorry, I encountered an error while processing your mention."
+            );
+        } catch (replyError) {
+            logger.error("Failed to send error message:", replyError);
         }
     }
 });
