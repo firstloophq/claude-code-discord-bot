@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, REST, Routes } from "discord.js";
 import commands from ".";
-import logger from "../logger";
+import logger from "../../logger";
 
 const commandsToDeploy = commands
     .map((command) =>

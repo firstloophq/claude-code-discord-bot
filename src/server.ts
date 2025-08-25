@@ -1,7 +1,8 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
-import { deployCommands } from "./commands/deploy";
-import commands from "./commands";
+import { deployCommands } from "./handlers/commands/deploy";
+import commands from "./handlers/commands";
 import logger from "./logger";
+import { handleMention, isBotMentioned } from "./handlers/mentions";
 
 // Start by deploying the commands to the Discord API.
 await deployCommands();
@@ -39,6 +40,27 @@ client.on(Events.InteractionCreate, async (interaction) => {
                 content: "There was an error while executing this command!",
                 ephemeral: true,
             });
+        }
+    }
+});
+
+client.on(Events.MessageCreate, async (message) => {
+    // Ignore messages from bots
+    if (message.author.bot) return;
+
+    // Check if the bot is mentioned
+    if (client.user && isBotMentioned(message, client.user.id)) {
+        try {
+            await handleMention(message);
+        } catch (error) {
+            logger.error("Error handling mention:", error);
+            try {
+                await message.reply(
+                    "Sorry, I encountered an error while processing your mention."
+                );
+            } catch (replyError) {
+                logger.error("Failed to send error message:", replyError);
+            }
         }
     }
 });
