@@ -1,0 +1,3 @@
+[submodule "submodules/linear-mcp"]
+	path = submodules/linear-mcp
+	url = https://github.com/cline/linear-mcp.git

@@ -27,6 +27,8 @@
     "zod": "^4.1.1"
   },
   "scripts": {
-    "knip": "knip"
+    "knip": "knip",
+    "build": "bun run build:linear-mcpb",
+    "build:linear-mcp": "cd submodules/linear-mcp && bun run build"
   }
 }
