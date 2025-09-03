@@ -21,6 +21,7 @@
   "dependencies": {
     "@anthropic-ai/claude-code": "^1.0.90",
     "@anthropic-ai/sdk": "^0.60.0",
+    "@tacticlaunch/mcp-linear": "^1.0.11",
     "discord.js": "^14.22.1",
     "eslint-plugin-n": "^17.21.3",
     "winston": "^3.17.0",

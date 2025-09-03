@@ -1,6 +1,6 @@
 {
-    "ignore": ["submodules/**"],
     "ignoreDependencies": [
-        "@anthropic-ai/sdk"
+        "@anthropic-ai/sdk",
+        "@tacticlaunch/mcp-linear"
     ]
 }
