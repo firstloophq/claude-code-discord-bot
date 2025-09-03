@@ -7,6 +7,9 @@ import jsdoc from "eslint-plugin-jsdoc";
 
 export default defineConfig([
     {
+        ignores: ["submodules/**"],
+    },
+    {
         files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
         plugins: { js, n },
         extends: ["js/recommended"],
