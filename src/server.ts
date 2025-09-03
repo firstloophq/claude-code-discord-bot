@@ -1,4 +1,11 @@
-import { Client, Events, GatewayIntentBits } from "discord.js";
+import {
+    ChannelType,
+    Client,
+    Events,
+    GatewayIntentBits,
+    Message,
+    type OmitPartialGroupDMChannel,
+} from "discord.js";
 import { deployCommands } from "@/handlers/commands/deploy";
 import commands from "@/handlers/commands";
 import logger from "@/logger";
@@ -11,6 +18,29 @@ const allowedMentionChannels = [
     "1290825650743148554", // #general
     "1408105249348128901", // #claude-code
 ];
+
+const isMentionInAllowedChannel = (
+    message: OmitPartialGroupDMChannel<Message<boolean>>
+) => {
+    if (!message.guild) {
+        return false;
+    }
+
+    if (allowedMentionChannels.includes(message.channelId)) {
+        return true;
+    }
+
+    if (
+        (message.channel.type == ChannelType.PrivateThread ||
+            message.channel.type == ChannelType.PublicThread) &&
+        message.channel.parentId &&
+        allowedMentionChannels.includes(message.channel.parentId)
+    ) {
+        return true;
+    }
+
+    return false;
+};
 
 // Start by deploying the commands to the Discord API.
 await deployCommands();
@@ -63,7 +93,7 @@ client.on(Events.MessageCreate, async (message) => {
 
     if (!isBotMentioned(message, client.user.id)) return;
 
-    if (!message.guild || !allowedMentionChannels.includes(message.channelId)) {
+    if (!isMentionInAllowedChannel(message)) {
         await message.reply(
             "Sorry, I can only respond in specific channels. Please try again in a channel that I have access to."
         );
