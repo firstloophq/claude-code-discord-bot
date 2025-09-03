@@ -28,7 +28,7 @@
   },
   "scripts": {
     "knip": "knip",
-    "build": "bun run build:linear-mcpb",
-    "build:linear-mcp": "cd submodules/linear-mcp && bun run build"
+    "build": "bun run build:linear-mcp",
+    "build:linear-mcp": "cd submodules/linear-mcp && bun install && bun run build"
   }
 }
